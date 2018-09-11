@@ -7,13 +7,23 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoardTest {
     @Test
     public void dimensionShouldReturnLengthOfBoard() {
-        int[][] boardInitialiser = {
-                {1, 2, 3},
-                {4, 5, 6},
-                {7, 8, 0}
-        };
-        Board b = new Board(boardInitialiser);
+        Board b = new Board(ExampleBoards.threeBoardGoal);
 
-        assertEquals(b.dimension(), 3);
+        assertEquals(3, b.dimension());
+    }
+
+    @Test
+    public void hammingShouldReturnBlocksOutOfPlace() {
+        assertAll("Hamming",
+                () -> assertEquals(0, new Board(ExampleBoards.twoBoardGoal).hamming()),
+                () -> assertEquals(0, new Board(ExampleBoards.threeBoardGoal).hamming()),
+                () -> assertEquals(0, new Board(ExampleBoards.fourBoardGoal).hamming()),
+
+                () -> assertEquals(2, new Board(ExampleBoards.twoBoard0132).hamming()),
+                () -> assertEquals(1, new Board(ExampleBoards.threeBoardOneAway).hamming()),
+                () -> assertEquals(4, new Board(ExampleBoards.threeBoardPuzzleFour).hamming()),
+                () -> assertEquals(6, new Board(ExampleBoards.threeBoardPuzzleThreeByThreeTwenty).hamming()),
+                () -> assertEquals(10, new Board(ExampleBoards.fourBoardPuzzleFourByFourEleven).hamming())
+        );
     }
 }
