@@ -19,6 +19,13 @@
   </properties>
 
   <repositories>
+    <!--Maven command used to deploy algs4 from a jar file at the project root-->
+    <!--mvn deploy:deploy-file -Durl=file:////Users/itchernev/Dev/java/eightpuzzle/repo/
+                                -Dfile=algs4.jar
+                                -DgroupId=edu.princeton.cs
+                                -DartifactId=algs4
+                                -Dpackaging=jar
+                                -Dversion=1.0.3-->
     <repository>
       <id>project.local</id>
       <name>project</name>
