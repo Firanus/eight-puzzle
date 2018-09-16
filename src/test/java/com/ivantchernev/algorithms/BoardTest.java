@@ -165,6 +165,28 @@ class BoardTest {
     }
 
     @Test
+    void ifNormalTwinSlotEmptyTwinSwapsOnRowAbove() {
+        int[][] initialBoardLayout = {
+                {1, 2, 3, 4},
+                {5, 6, 7, 8},
+                {9, 10, 11, 12},
+                {13, 14, 0, 15}
+        };
+
+        int[][] twinBoardLayout = {
+                {1, 2, 3, 4},
+                {5, 6, 7, 8},
+                {9, 11, 10, 12},
+                {13, 14, 0, 15}
+        };
+
+        assertEquals(
+                new Board(initialBoardLayout).twin(),
+                new Board((twinBoardLayout))
+        );
+    }
+
+    @Test
     void neighboursDoesntChangeInitialBoard() {
         int[][] initialBoardLayout = {
                 {1, 2, 3},
