@@ -6,14 +6,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
     @Test
-    public void dimensionShouldReturnLengthOfBoard() {
+    void dimensionShouldReturnLengthOfBoard() {
         Board b = new Board(ExampleBoards.threeBoardGoal);
 
         assertEquals(3, b.dimension());
     }
 
     @Test
-    public void hammingShouldReturnBlocksOutOfPlace() {
+    void hammingShouldReturnBlocksOutOfPlace() {
         assertAll("Hamming",
                 () -> assertEquals(0, new Board(ExampleBoards.twoBoardGoal).hamming()),
                 () -> assertEquals(0, new Board(ExampleBoards.threeBoardGoal).hamming()),
@@ -28,7 +28,7 @@ class BoardTest {
     }
 
     @Test
-    public void manhattanShouldReturnDistancesBetweenBlocksAndGoal() {
+    void manhattanShouldReturnDistancesBetweenBlocksAndGoal() {
         assertAll("Manhattan",
                 () -> assertEquals(0, new Board(ExampleBoards.twoBoardGoal).manhattan()),
                 () -> assertEquals(0, new Board(ExampleBoards.threeBoardGoal).manhattan()),
@@ -43,7 +43,7 @@ class BoardTest {
     }
 
     @Test
-    public void isGoalShouldReturnTrueForGoalBoardsFalseOtherwise() {
+    void isGoalShouldReturnTrueForGoalBoardsFalseOtherwise() {
         assertAll("isGoal",
                 () -> assertTrue(new Board(ExampleBoards.twoBoardGoal).isGoal()),
                 () -> assertTrue(new Board(ExampleBoards.threeBoardGoal).isGoal()),
@@ -58,23 +58,23 @@ class BoardTest {
     }
 
     @Test
-    public void equalsReturnsTrueBetweenAnItemAndItself() {
+    void equalsReturnsTrueBetweenAnItemAndItself() {
         Board board = new Board(ExampleBoards.twoBoard0132);
         assertEquals(board, board);
     }
 
     @Test
-    public void equalsReturnsFalseBetweenAnyBoardAndNull() {
+    void equalsReturnsFalseBetweenAnyBoardAndNull() {
         assertNotEquals(new Board(ExampleBoards.twoBoard0132), null);
     }
 
     @Test
-    public void equalsReturnsFalseBetweenAnyBoardAndDifferentType() {
+    void equalsReturnsFalseBetweenAnyBoardAndDifferentType() {
         assertNotEquals(new Board(ExampleBoards.twoBoard0132), new App());
     }
 
     @Test
-    public void equalsComparesBoards() {
+    void equalsComparesBoards() {
         Board twoGoal = new Board(ExampleBoards.twoBoardGoal);
         Board threeGoal = new Board(ExampleBoards.threeBoardGoal);
         Board threePuzzle = new Board(ExampleBoards.threeBoardPuzzleThreeByThreeTwenty);
@@ -87,6 +87,26 @@ class BoardTest {
                 () -> assertNotEquals(twoGoal, threeGoal),
                 () -> assertNotEquals(twoGoal, threePuzzle),
                 () -> assertNotEquals(threeGoal, threePuzzle)
+        );
+    }
+
+    @Test
+    void twinSwapsLastTwoBlocksOfBoard() {
+        int[][] initialBoardLayout = {
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 0}
+        };
+
+        int[][] twinBoardLayout = {
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 0, 8}
+        };
+
+        assertEquals(
+                new Board(initialBoardLayout).twin(),
+                new Board((twinBoardLayout))
         );
     }
 }

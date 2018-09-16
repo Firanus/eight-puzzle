@@ -1,5 +1,7 @@
 package com.ivantchernev.algorithms;
 
+import java.util.Arrays;
+
 public class Board {
     private int dimension;
     private int[][] blocks;
@@ -63,9 +65,15 @@ public class Board {
     }
 
 //    // a board that is obtained by exchanging any pair of blocks
-//    public Board twin() {
-//
-//    }
+    public Board twin() {
+        int[][] twinLayout = swappedBlocks(blocks,
+                dimension - 2,
+                dimension - 1,
+                dimension - 1,
+                dimension - 1);
+
+        return new Board(twinLayout);
+    }
 
     // indices are 0 based
     private int targetNumberForPosition(int x, int y) {
@@ -80,6 +88,14 @@ public class Board {
     //returned y-position is 0-based
     private int yPositionForNumber(int num) {
         return num == 0 ? dimension - 1 : (num - 1) / dimension;
+    }
+
+    private int[][] swappedBlocks(int[][] inputBlocks, int x1, int y1, int x2, int y2) {
+        int[][] copiedBlocks = inputBlocks.clone();
+        int temp = copiedBlocks[y1][x1];
+        copiedBlocks[y1][x1] = copiedBlocks[y2][x2];
+        copiedBlocks[y2][x2] = temp;
+        return copiedBlocks;
     }
 
 //    public Iterable<Board> neighbors()     // all neighboring boards
