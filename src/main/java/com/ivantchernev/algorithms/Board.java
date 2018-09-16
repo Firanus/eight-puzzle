@@ -21,12 +21,41 @@ public class Board {
         int count = 0;
         for(int i = 0; i < dimension; i++) {
             for(int j = 0; j < dimension; j++) {
-                if (blocks[i][j] != 0 && blocks[i][j] != (i * dimension) + j + 1) count++;
+                if (targetNumberForPosition(i, j) != 0 && blocks[i][j] != targetNumberForPosition(i, j)) count++;
             }
         }
         return count;
     }
-//    public int manhattan()                 // sum of Manhattan distances between blocks and goal
+
+    // sum of Manhattan distances between blocks and goal
+    public int manhattan() {
+        int distances = 0;
+        for(int i = 0; i < dimension; i++) {
+            for(int j = 0; j < dimension; j++) {
+                if (blocks[i][j] != 0 && blocks[i][j] != targetNumberForPosition(i, j)) {
+                    distances += Math.abs(xPositionForNumber(blocks[i][j]) - j);
+                    distances += Math.abs(yPositionForNumber(blocks[i][j]) - i);
+                }
+            }
+        }
+        return distances;
+    }
+
+    // indices are 0 based
+    private int targetNumberForPosition(int x, int y) {
+        return x == (dimension - 1) && y == (dimension - 1) ? 0 : (x * dimension) + y + 1;
+    }
+
+    // returned x-position is 0-based
+    private int xPositionForNumber(int num) {
+        return num == 0 ? dimension - 1 : (num - 1) % dimension;
+    }
+
+    //returned y-position is 0-based
+    private int yPositionForNumber(int num) {
+        return num == 0 ? dimension - 1 : (num - 1) / dimension;
+    }
+
 //    public boolean isGoal()                // is this board the goal board?
 //    public Board twin()                    // a board that is obtained by exchanging any pair of blocks
 //    public boolean equals(Object y)        // does this board equal y?

@@ -26,4 +26,19 @@ class BoardTest {
                 () -> assertEquals(10, new Board(ExampleBoards.fourBoardPuzzleFourByFourEleven).hamming())
         );
     }
+
+    @Test
+    public void manhattanShouldReturnDistancesBetweenBlocksAndGoal() {
+        assertAll("Manhattan",
+                () -> assertEquals(0, new Board(ExampleBoards.twoBoardGoal).manhattan()),
+                () -> assertEquals(0, new Board(ExampleBoards.threeBoardGoal).manhattan()),
+                () -> assertEquals(0, new Board(ExampleBoards.fourBoardGoal).manhattan()),
+
+                () -> assertEquals(2, new Board(ExampleBoards.twoBoard0132).manhattan()),
+                () -> assertEquals(1, new Board(ExampleBoards.threeBoardOneAway).manhattan()),
+                () -> assertEquals(4, new Board(ExampleBoards.threeBoardPuzzleFour).manhattan()),
+                () -> assertEquals(12, new Board(ExampleBoards.threeBoardPuzzleThreeByThreeTwenty).manhattan()),
+                () -> assertEquals(11, new Board(ExampleBoards.fourBoardPuzzleFourByFourEleven).manhattan())
+        );
+    }
 }
