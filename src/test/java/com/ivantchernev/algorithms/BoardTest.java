@@ -245,4 +245,25 @@ class BoardTest {
                 containsLeftNeighbour &&
                 containsRightNeighbour);
     }
+
+    @Test
+    void toStringReturnsStringRepresentationInCorrectFormat() {
+        assertAll("toString",
+                () -> assertEquals("2\n" +
+                        " 1  2 \n" +
+                        " 3  0 \n",
+                        new Board(ExampleBoards.twoBoardGoal).toString()),
+                () -> assertEquals("3\n" +
+                        " 0  1  3 \n" +
+                        " 4  2  5 \n" +
+                        " 7  8  6 \n",
+                        new Board(ExampleBoards.threeBoardPuzzleFour).toString()),
+                () -> assertEquals("4\n" +
+                        " 1  2  3  4 \n" +
+                        " 5  6  7  8 \n" +
+                        " 9 10 11 12 \n" +
+                        "13 14 15  0 \n",
+                        new Board(ExampleBoards.fourBoardGoal).toString())
+        );
+    }
 }

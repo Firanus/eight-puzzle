@@ -92,6 +92,19 @@ public class Board {
         return neighboursStack;
     }
 
+    // string representation of this board
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        s.append(dimension + "\n");
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                s.append(String.format("%2d ", blocks[i][j]));
+            }
+            s.append("\n");
+        }
+        return s.toString();
+    }
+
     // indices are 0 based
     private int targetNumberForPosition(int x, int y) {
         return x == (dimension - 1) && y == (dimension - 1) ? 0 : (x * dimension) + y + 1;
@@ -145,6 +158,4 @@ public class Board {
         copiedBlocks[y2][x2] = temp;
         return copiedBlocks;
     }
-
-//    public String toString()               // string representation of this board (in the output format specified below)
 }
