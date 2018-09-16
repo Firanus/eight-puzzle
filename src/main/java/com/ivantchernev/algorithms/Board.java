@@ -1,6 +1,8 @@
 package com.ivantchernev.algorithms;
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
+import java.util.Stack;
 
 public class Board {
     private int dimension;
@@ -10,7 +12,7 @@ public class Board {
     // (where blocks[i][j] = block in row i, column j)
     public Board(int[][] blocks) {
         dimension = blocks.length;
-        this.blocks = blocks;
+        this.blocks = cloneBlocks(blocks);
     }
 
     // board dimension n
@@ -66,13 +68,28 @@ public class Board {
 
 //    // a board that is obtained by exchanging any pair of blocks
     public Board twin() {
-        int[][] twinLayout = swappedBlocks(blocks,
+        int[][] twinLayout = swapBlocks(blocks,
                 dimension - 2,
                 dimension - 1,
                 dimension - 1,
                 dimension - 1);
 
         return new Board(twinLayout);
+    }
+
+    // all neighboring boards
+    public Iterable<Board> neighbors() {
+        int[] zeroPosition = positionOfNumber(0);
+        int zeroX = zeroPosition[0];
+        int zeroY = zeroPosition[1];
+
+        Stack<Board> neighboursStack = new Stack<>();
+        if (zeroX > 0) neighboursStack.push(new Board(swapBlocks(blocks, zeroX, zeroY, zeroX - 1, zeroY)));
+        if (zeroY > 0) neighboursStack.push(new Board(swapBlocks(blocks, zeroX, zeroY, zeroX, zeroY - 1)));
+        if (zeroX < dimension - 1) neighboursStack.push(new Board(swapBlocks(blocks, zeroX, zeroY, zeroX + 1, zeroY)));
+        if (zeroY < dimension - 1) neighboursStack.push(new Board(swapBlocks(blocks, zeroX, zeroY, zeroX, zeroY + 1)));
+
+        return neighboursStack;
     }
 
     // indices are 0 based
@@ -90,14 +107,44 @@ public class Board {
         return num == 0 ? dimension - 1 : (num - 1) / dimension;
     }
 
-    private int[][] swappedBlocks(int[][] inputBlocks, int x1, int y1, int x2, int y2) {
-        int[][] copiedBlocks = inputBlocks.clone();
+    // Returns position in array [x, y]
+    // Sub-optimal to return an int[] rather than
+    // a custom type, but refactor not worth the time.
+    private int[] positionOfNumber(int num) {
+        int[] returnPosition = new int[2];
+        for (int i = 0; i < dimension; i++ ) {
+            for (int j = 0; j < dimension; j++) {
+                if(blocks[i][j] == num) {
+                    returnPosition[0] = j;
+                    returnPosition[1] = i;
+                    return returnPosition;
+                }
+            }
+        }
+        throw new NoSuchElementException();
+    }
+
+    private int[][] cloneBlocks(int[][] blocks) {
+        int[][] copiedBlocks = new int[dimension][dimension];
+        for(int i = 0; i < dimension; i++) {
+            for(int j = 0; j < dimension; j++) {
+                copiedBlocks[i][j] = blocks[i][j];
+            }
+        }
+        return copiedBlocks;
+    }
+
+    private int[][] cloneBlocks() {
+        return cloneBlocks(this.blocks);
+    }
+
+    private int[][] swapBlocks(int[][] inputBlocks, int x1, int y1, int x2, int y2) {
+        int[][] copiedBlocks = cloneBlocks();
         int temp = copiedBlocks[y1][x1];
         copiedBlocks[y1][x1] = copiedBlocks[y2][x2];
         copiedBlocks[y2][x2] = temp;
         return copiedBlocks;
     }
 
-//    public Iterable<Board> neighbors()     // all neighboring boards
 //    public String toString()               // string representation of this board (in the output format specified below)
 }

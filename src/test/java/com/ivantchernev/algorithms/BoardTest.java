@@ -58,6 +58,22 @@ class BoardTest {
     }
 
     @Test
+    void changingInitialBlocksArrayShouldNotAffectBoard() {
+        int[][] initialLayout = {
+                {1, 2},
+                {3, 0}
+        };
+        Board twoGoal = new Board(initialLayout);
+
+        assertTrue(twoGoal.isGoal());
+
+        initialLayout[1][0] = 0;
+        initialLayout[1][1] = 3;
+
+        assertTrue(twoGoal.isGoal());
+    }
+
+    @Test
     void equalsReturnsTrueBetweenAnItemAndItself() {
         Board board = new Board(ExampleBoards.twoBoard0132);
         assertEquals(board, board);
@@ -91,6 +107,22 @@ class BoardTest {
     }
 
     @Test
+    void twinDoesntChangeInitialBoard() {
+        int[][] initialBoardLayout = {
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 0}
+        };
+        Board initialBoard = new Board(initialBoardLayout);
+        initialBoard.twin();
+
+        assertEquals(
+                initialBoard,
+                new Board(initialBoardLayout)
+        );
+    }
+
+    @Test
     void twinSwapsLastTwoBlocksOfBoard() {
         int[][] initialBoardLayout = {
                 {1, 2, 3},
@@ -108,5 +140,109 @@ class BoardTest {
                 new Board(initialBoardLayout).twin(),
                 new Board((twinBoardLayout))
         );
+    }
+
+    @Test
+    void neighboursDoesntChangeInitialBoard() {
+        int[][] initialBoardLayout = {
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 0}
+        };
+        Board initialBoard = new Board(initialBoardLayout);
+        initialBoard.neighbors();
+
+        assertEquals(
+                initialBoard,
+                new Board(initialBoardLayout)
+        );
+    }
+
+    @Test
+    void neighboursReturnsNeighbouringBoardsWhenOpenSlotOnEdges() {
+        int[][] initialBoardLayout = {
+                {1, 2},
+                {3, 0}
+        };
+        int[][] verticalNeighborLayout  = {
+                {1, 0},
+                {3, 2}
+        };
+        int[][] horizontalNeighborLayout  = {
+                {1, 2},
+                {0, 3}
+        };
+
+        Board board = new Board(initialBoardLayout);
+        Board verticalNeighbour = new Board(verticalNeighborLayout);
+        Board horizontalNeighbour = new Board(horizontalNeighborLayout);
+
+        boolean containsHorNeighbour = false;
+        boolean containsVertNeighbour = false;
+        int count = 0;
+
+        for(Board neighbour : board.neighbors()) {
+            count++;
+            if (neighbour.equals(verticalNeighbour)) containsVertNeighbour = true;
+            if (neighbour.equals(horizontalNeighbour)) containsHorNeighbour = true;
+        }
+
+        assertEquals(2, count);
+        assertTrue(containsHorNeighbour && containsVertNeighbour);
+    }
+
+    @Test
+    void neighboursReturnsNeighbouringBoardsWhenOpenSlotInMiddle() {
+        int[][] initialBoardLayout = {
+                {1, 2, 3},
+                {4, 0, 6},
+                {7, 8, 5}
+        };
+        int[][] topNeighborLayout  = {
+                {1, 0, 3},
+                {4, 2, 6},
+                {7, 8, 5}
+        };
+        int[][] bottomNeighborLayout  = {
+                {1, 2, 3},
+                {4, 8, 6},
+                {7, 0, 5}
+        };
+        int[][] leftNeighborLayout  = {
+                {1, 2, 3},
+                {0, 4, 6},
+                {7, 8, 5}
+        };
+        int[][] rightNeighborLayout  = {
+                {1, 2, 3},
+                {4, 6, 0},
+                {7, 8, 5}
+        };
+
+        Board board = new Board(initialBoardLayout);
+        Board topNeighbour = new Board(topNeighborLayout);
+        Board bottomNeighbour = new Board(bottomNeighborLayout);
+        Board leftNeighbour = new Board(leftNeighborLayout);
+        Board rightNeighbour = new Board(rightNeighborLayout);
+
+        boolean containsTopNeighbour = false;
+        boolean containsBottomNeighbour = false;
+        boolean containsLeftNeighbour = false;
+        boolean containsRightNeighbour = false;
+        int count = 0;
+
+        for(Board neighbour : board.neighbors()) {
+            count++;
+            if (neighbour.equals(topNeighbour)) containsTopNeighbour = true;
+            if (neighbour.equals(bottomNeighbour)) containsBottomNeighbour = true;
+            if (neighbour.equals(leftNeighbour)) containsLeftNeighbour = true;
+            if (neighbour.equals(rightNeighbour)) containsRightNeighbour = true;
+        }
+
+        assertEquals(4, count);
+        assertTrue(containsTopNeighbour &&
+                containsBottomNeighbour &&
+                containsLeftNeighbour &&
+                containsRightNeighbour);
     }
 }
