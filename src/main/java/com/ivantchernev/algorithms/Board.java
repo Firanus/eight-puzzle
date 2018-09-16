@@ -69,9 +69,9 @@ public class Board {
 //    // a board that is obtained by exchanging any pair of blocks
     public Board twin() {
         int[][] twinLayout = swapBlocks(blocks,
-                dimension - 2,
+                dimension < 4 ? 0 : dimension - 3,
                 dimension - 1,
-                dimension - 1,
+                dimension < 4 ? 1 : dimension - 2,
                 dimension - 1);
 
         return new Board(twinLayout);
