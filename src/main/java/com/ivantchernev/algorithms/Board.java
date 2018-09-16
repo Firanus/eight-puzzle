@@ -41,6 +41,11 @@ public class Board {
         return distances;
     }
 
+    // is this board the goal board?
+    public boolean isGoal() {
+        return hamming() == 0;
+    }
+
     // indices are 0 based
     private int targetNumberForPosition(int x, int y) {
         return x == (dimension - 1) && y == (dimension - 1) ? 0 : (x * dimension) + y + 1;
@@ -56,7 +61,6 @@ public class Board {
         return num == 0 ? dimension - 1 : (num - 1) / dimension;
     }
 
-//    public boolean isGoal()                // is this board the goal board?
 //    public Board twin()                    // a board that is obtained by exchanging any pair of blocks
 //    public boolean equals(Object y)        // does this board equal y?
 //    public Iterable<Board> neighbors()     // all neighboring boards

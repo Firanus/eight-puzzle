@@ -41,4 +41,19 @@ class BoardTest {
                 () -> assertEquals(11, new Board(ExampleBoards.fourBoardPuzzleFourByFourEleven).manhattan())
         );
     }
+
+    @Test
+    public void isGoalShouldReturnTrueForGoalBoardsFalseOtherwise() {
+        assertAll("isGoal",
+                () -> assertTrue(new Board(ExampleBoards.twoBoardGoal).isGoal()),
+                () -> assertTrue(new Board(ExampleBoards.threeBoardGoal).isGoal()),
+                () -> assertTrue(new Board(ExampleBoards.fourBoardGoal).isGoal()),
+
+                () -> assertFalse(new Board(ExampleBoards.twoBoard0132).isGoal()),
+                () -> assertFalse(new Board(ExampleBoards.threeBoardOneAway).isGoal()),
+                () -> assertFalse(new Board(ExampleBoards.threeBoardPuzzleFour).isGoal()),
+                () -> assertFalse(new Board(ExampleBoards.threeBoardPuzzleThreeByThreeTwenty).isGoal()),
+                () -> assertFalse(new Board(ExampleBoards.fourBoardPuzzleFourByFourEleven).isGoal())
+        );
+    }
 }
