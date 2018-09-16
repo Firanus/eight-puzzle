@@ -56,4 +56,37 @@ class BoardTest {
                 () -> assertFalse(new Board(ExampleBoards.fourBoardPuzzleFourByFourEleven).isGoal())
         );
     }
+
+    @Test
+    public void equalsReturnsTrueBetweenAnItemAndItself() {
+        Board board = new Board(ExampleBoards.twoBoard0132);
+        assertEquals(board, board);
+    }
+
+    @Test
+    public void equalsReturnsFalseBetweenAnyBoardAndNull() {
+        assertNotEquals(new Board(ExampleBoards.twoBoard0132), null);
+    }
+
+    @Test
+    public void equalsReturnsFalseBetweenAnyBoardAndDifferentType() {
+        assertNotEquals(new Board(ExampleBoards.twoBoard0132), new App());
+    }
+
+    @Test
+    public void equalsComparesBoards() {
+        Board twoGoal = new Board(ExampleBoards.twoBoardGoal);
+        Board threeGoal = new Board(ExampleBoards.threeBoardGoal);
+        Board threePuzzle = new Board(ExampleBoards.threeBoardPuzzleThreeByThreeTwenty);
+
+        assertAll("isGoal",
+                () -> assertEquals(twoGoal, twoGoal),
+                () -> assertEquals(threeGoal, threeGoal),
+                () -> assertEquals(threePuzzle, threePuzzle),
+
+                () -> assertNotEquals(twoGoal, threeGoal),
+                () -> assertNotEquals(twoGoal, threePuzzle),
+                () -> assertNotEquals(threeGoal, threePuzzle)
+        );
+    }
 }

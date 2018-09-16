@@ -46,6 +46,27 @@ public class Board {
         return hamming() == 0;
     }
 
+    // does this board equal y?
+    public boolean equals(Object y) {
+        if (y == this) return true;
+        if (y == null) return false;
+        if (y.getClass() != this.getClass()) return false;
+        Board compareBoard = (Board) y;
+        if (compareBoard.dimension() != this.dimension()) return false;
+
+        for(int i = 0; i < dimension; i++) {
+            for(int j = 0; j < dimension; j++) {
+                if (blocks[i][j] != compareBoard.blocks[i][j]) return false;
+            }
+        }
+        return true;
+    }
+
+//    // a board that is obtained by exchanging any pair of blocks
+//    public Board twin() {
+//
+//    }
+
     // indices are 0 based
     private int targetNumberForPosition(int x, int y) {
         return x == (dimension - 1) && y == (dimension - 1) ? 0 : (x * dimension) + y + 1;
@@ -61,8 +82,6 @@ public class Board {
         return num == 0 ? dimension - 1 : (num - 1) / dimension;
     }
 
-//    public Board twin()                    // a board that is obtained by exchanging any pair of blocks
-//    public boolean equals(Object y)        // does this board equal y?
 //    public Iterable<Board> neighbors()     // all neighboring boards
 //    public String toString()               // string representation of this board (in the output format specified below)
 }
