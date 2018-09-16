@@ -6,4 +6,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SolverTest {
 
+    @Test
+    void SolverThrowsIllegalArgumentExceptionIfPassedNullBoard() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Solver(null));
+    }
+
 }
