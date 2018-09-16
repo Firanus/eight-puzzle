@@ -30,7 +30,7 @@ public class Solver {
 
     // find a solution to the initial board (using the A* algorithm)
     public Solver(Board initial) {
-        if(initial == null) throw new IllegalArgumentException();
+        if (initial == null) throw new IllegalArgumentException();
 
         MinPQ<SearchNode> mainPQ = new MinPQ<>();
         MinPQ<SearchNode> twinPQ = new MinPQ<>();
@@ -42,10 +42,10 @@ public class Solver {
         MinPQ<SearchNode> workingPQ = mainPQ;
         SearchNode latestSearchNode = workingPQ.delMin();
 
-        while(!latestSearchNode.board.isGoal()) {
+        while (!latestSearchNode.board.isGoal()) {
             Iterable<Board> neighbourBoards = latestSearchNode.board.neighbors();
-            for(Board newBoard : neighbourBoards) {
-                if(!newBoard.equals(latestSearchNode.board)) {
+            for (Board newBoard : neighbourBoards) {
+                if (!newBoard.equals(latestSearchNode.board)) {
                     SearchNode newNode = new SearchNode(newBoard,
                             latestSearchNode.numberOfMoves + 1,
                             latestSearchNode);

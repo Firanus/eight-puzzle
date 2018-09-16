@@ -5,8 +5,8 @@ import java.util.NoSuchElementException;
 import java.util.Stack;
 
 public class Board {
-    private int dimension;
-    private int[][] blocks;
+    private final int dimension;
+    private final int[][] blocks;
 
     // construct a board from an n-by-n array of blocks
     // (where blocks[i][j] = block in row i, column j)
@@ -23,8 +23,8 @@ public class Board {
     // number of blocks out of place
     public int hamming() {
         int count = 0;
-        for(int i = 0; i < dimension; i++) {
-            for(int j = 0; j < dimension; j++) {
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
                 if (targetNumberForPosition(i, j) != 0 && blocks[i][j] != targetNumberForPosition(i, j)) count++;
             }
         }
@@ -34,8 +34,8 @@ public class Board {
     // sum of Manhattan distances between blocks and goal
     public int manhattan() {
         int distances = 0;
-        for(int i = 0; i < dimension; i++) {
-            for(int j = 0; j < dimension; j++) {
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
                 if (blocks[i][j] != 0 && blocks[i][j] != targetNumberForPosition(i, j)) {
                     distances += Math.abs(xPositionForNumber(blocks[i][j]) - j);
                     distances += Math.abs(yPositionForNumber(blocks[i][j]) - i);
@@ -58,7 +58,7 @@ public class Board {
         Board compareBoard = (Board) y;
         if (compareBoard.dimension() != this.dimension()) return false;
 
-        for(int i = 0; i < dimension; i++) {
+        for (int i = 0; i < dimension; i++) {
             for(int j = 0; j < dimension; j++) {
                 if (blocks[i][j] != compareBoard.blocks[i][j]) return false;
             }
@@ -66,13 +66,14 @@ public class Board {
         return true;
     }
 
-//    // a board that is obtained by exchanging any pair of blocks
+    // a board that is obtained by exchanging any pair of blocks
     public Board twin() {
-        int[][] twinLayout = swapBlocks(blocks,
+        int[][] twinLayout = swapBlocks(
                 dimension < 4 ? 0 : dimension - 3,
                 dimension - 1,
                 dimension < 4 ? 1 : dimension - 2,
-                dimension - 1);
+                dimension - 1
+        );
 
         return new Board(twinLayout);
     }
@@ -84,10 +85,10 @@ public class Board {
         int zeroY = zeroPosition[1];
 
         Stack<Board> neighboursStack = new Stack<>();
-        if (zeroX > 0) neighboursStack.push(new Board(swapBlocks(blocks, zeroX, zeroY, zeroX - 1, zeroY)));
-        if (zeroY > 0) neighboursStack.push(new Board(swapBlocks(blocks, zeroX, zeroY, zeroX, zeroY - 1)));
-        if (zeroX < dimension - 1) neighboursStack.push(new Board(swapBlocks(blocks, zeroX, zeroY, zeroX + 1, zeroY)));
-        if (zeroY < dimension - 1) neighboursStack.push(new Board(swapBlocks(blocks, zeroX, zeroY, zeroX, zeroY + 1)));
+        if (zeroX > 0) neighboursStack.push(new Board(swapBlocks(zeroX, zeroY, zeroX - 1, zeroY)));
+        if (zeroY > 0) neighboursStack.push(new Board(swapBlocks(zeroX, zeroY, zeroX, zeroY - 1)));
+        if (zeroX < dimension - 1) neighboursStack.push(new Board(swapBlocks(zeroX, zeroY, zeroX + 1, zeroY)));
+        if (zeroY < dimension - 1) neighboursStack.push(new Board(swapBlocks(zeroX, zeroY, zeroX, zeroY + 1)));
 
         return neighboursStack;
     }
@@ -125,9 +126,9 @@ public class Board {
     // a custom type, but refactor not worth the time.
     private int[] positionOfNumber(int num) {
         int[] returnPosition = new int[2];
-        for (int i = 0; i < dimension; i++ ) {
+        for (int i = 0; i < dimension; i++) {
             for (int j = 0; j < dimension; j++) {
-                if(blocks[i][j] == num) {
+                if (blocks[i][j] == num) {
                     returnPosition[0] = j;
                     returnPosition[1] = i;
                     return returnPosition;
@@ -139,8 +140,8 @@ public class Board {
 
     private int[][] cloneBlocks(int[][] blocks) {
         int[][] copiedBlocks = new int[dimension][dimension];
-        for(int i = 0; i < dimension; i++) {
-            for(int j = 0; j < dimension; j++) {
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
                 copiedBlocks[i][j] = blocks[i][j];
             }
         }
@@ -151,7 +152,7 @@ public class Board {
         return cloneBlocks(this.blocks);
     }
 
-    private int[][] swapBlocks(int[][] inputBlocks, int x1, int y1, int x2, int y2) {
+    private int[][] swapBlocks(int x1, int y1, int x2, int y2) {
         int[][] copiedBlocks = cloneBlocks();
         int temp = copiedBlocks[y1][x1];
         copiedBlocks[y1][x1] = copiedBlocks[y2][x2];
