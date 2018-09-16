@@ -6,6 +6,7 @@ import edu.princeton.cs.algs4.Stack;
 import edu.princeton.cs.algs4.StdOut;
 
 public class Solver {
+
     private class SearchNode implements Comparable<SearchNode> {
         public final Board board;
         public final int numberOfMoves;
@@ -44,7 +45,7 @@ public class Solver {
         while (!latestSearchNode.board.isGoal()) {
             Iterable<Board> neighbourBoards = latestSearchNode.board.neighbors();
             for (Board newBoard : neighbourBoards) {
-                if (!newBoard.equals(latestSearchNode.board)) {
+                if (latestSearchNode.predecessor == null || !newBoard.equals(latestSearchNode.predecessor.board)) {
                     SearchNode newNode = new SearchNode(newBoard,
                             latestSearchNode.numberOfMoves + 1,
                             latestSearchNode);
